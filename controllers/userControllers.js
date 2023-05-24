@@ -143,4 +143,5 @@ module.exports = {
   loginUser,
   getAllUser,
   profileUser,
+  logoutUser,
 };
