@@ -129,7 +129,7 @@ const getAllUser = asyncHandler(async (req, res, next) => {
   }
 });
 const logoutUser = asyncHandler(async (req, res, next) => {
-  res.json({ message: "Đăng xuất thành công" });
+  res.status(200).json({ message: "Đăng xuất thành công" });
 });
 
 const profileUser = asyncHandler(async (req, res, next) => {
