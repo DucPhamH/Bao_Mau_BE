@@ -128,9 +128,19 @@ const getAllUser = asyncHandler(async (req, res, next) => {
     throw new Error("Lấy thất bại");
   }
 });
+const logoutUser = asyncHandler(async (req, res, next) => {
+  res.json({ message: "Đăng xuất thành công" });
+});
+
+const profileUser = asyncHandler(async (req, res, next) => {
+  console.log(req.user);
+  const user = await UserModel.findById({ _id: req.user._id });
+  res.json({ message: "Lấy thông tin thành công", data: user });
+});
 
 module.exports = {
   registerUser,
   loginUser,
   getAllUser,
+  profileUser,
 };
