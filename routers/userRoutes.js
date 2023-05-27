@@ -7,8 +7,8 @@ const {
   profileUser,
   logoutUser,
   uploadImageUser,
-  // updateUser,
-  // updatePass,
+  updateUser,
+  updatePass,
 } = require("../controllers/userControllers");
 const validateToken = require("../middleware/validateTokenHandle");
 const multer = require("multer");
