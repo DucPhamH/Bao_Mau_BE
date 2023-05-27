@@ -6,6 +6,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const userRouter = require("./routers/userRoutes");
+const employeeRouter = require("./routers/employeeRoutes");
 const db = require("./config/db");
 db.connectDB();
 
@@ -16,6 +17,7 @@ app.use(cors());
 app.use(morgan("combined"));
 
 app.use("/api/users", userRouter);
+app.use("/api/employees", employeeRouter);
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);

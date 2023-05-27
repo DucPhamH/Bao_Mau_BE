@@ -7,6 +7,8 @@ const {
   profileUser,
   logoutUser,
   uploadImageUser,
+  updateUser,
+  updatePass,
 } = require("../controllers/userControllers");
 const validateToken = require("../middleware/validateTokenHandle");
 const multer = require("multer");
@@ -49,4 +51,7 @@ router.post(
   upload.single("imageUser"),
   uploadImageUser
 );
+router.put("/updateUser", validateToken, updateUser);
+router.put("/updatePass", validateToken, updatePass);
+
 module.exports = router;

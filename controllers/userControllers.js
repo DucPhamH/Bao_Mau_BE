@@ -155,6 +155,61 @@ const uploadImageUser = asyncHandler(async (req, res, next) => {
   }
 });
 
+const updateUser = asyncHandler(async (req, res, next) => {
+  const { _id } = req.user;
+  const { email, name, address } = req.body;
+  const check = validator.isEmail(email);
+  if (check === false) {
+    res.status(400).json({ message: "Bạn nhập sai email" });
+    throw new Error("Sai email");
+  }
+  const updateUser = await UserModel.findByIdAndUpdate(_id, {
+    email: email,
+    name: name,
+    address: address,
+  });
+  if (updateUser) {
+    res
+      .status(200)
+      .json({ message: "Update thông tin thành công", data: updateUser });
+  } else {
+    res.status(400).json({ message: "Update thông tin thất bại" });
+    throw new Error("Update thông tin thất bại");
+  }
+});
+
+const updatePass = asyncHandler(async (req, res, next) => {
+  const { _id } = req.user;
+  const { password, newPassword } = req.body;
+  if (!password || !newPassword) {
+    res.status(400).json({ message: "Bạn phải nhập đầy đủ" });
+    throw new Error("Các trường không được để trống");
+  }
+  if (password === newPassword) {
+    res.status(400).json({ message: "Password cũ trùng với password mới" });
+    throw new Error("Password cũ trùng với password mới");
+  }
+  const user = await UserModel.findById({ _id: _id });
+  if (user && (await bcrypt.compare(password, user.password))) {
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    const updatePassword = await UserModel.findByIdAndUpdate(_id, {
+      password: hashedPassword,
+    });
+
+    if (updatePassword) {
+      res
+        .status(200)
+        .json({ message: "Update password thành công", data: updatePassword });
+    } else {
+      res.status(400).json({ message: "Update password thất bại" });
+      throw new Error("Update password thất bại");
+    }
+  } else {
+    res.status(400).json({ message: "Nhập sai mật khẩu" });
+    throw new Error("Nhập sai mật khẩu");
+  }
+});
+
 module.exports = {
   registerUser,
   loginUser,
@@ -162,4 +217,6 @@ module.exports = {
   profileUser,
   logoutUser,
   uploadImageUser,
+  updateUser,
+  updatePass,
 };
