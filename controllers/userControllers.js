@@ -163,11 +163,10 @@ const updateUser = asyncHandler(async (req, res, next) => {
     res.status(400).json({ message: "Bạn nhập sai email" });
     throw new Error("Sai email");
   }
-  const updateUser = await UserModel.findByIdAndUpdate(_id, {
-    email: email,
-    name: name,
-    address: address,
-  });
+  const updateUser = await UserModel.findOneAndUpdate(
+    { _id: _id },
+    { email: email, name: name, address: address }
+  );
   if (updateUser) {
     res
       .status(200)
