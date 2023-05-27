@@ -51,7 +51,7 @@ router.post(
   upload.single("imageUser"),
   uploadImageUser
 );
-// router.put("/updateUser", validateToken, updateUser);
-// router.put("/updatePass", validateToken, updatePass);
+router.put("/updateUser", validateToken, updateUser);
+router.put("/updatePass", validateToken, updatePass);
 
 module.exports = router;
