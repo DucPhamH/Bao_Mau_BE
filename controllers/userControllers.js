@@ -138,10 +138,28 @@ const profileUser = asyncHandler(async (req, res, next) => {
   res.json({ message: "Lấy thông tin thành công", data: user });
 });
 
+const uploadImageUser = asyncHandler(async (req, res, next) => {
+  console.log(req.user);
+  const { _id } = req.user;
+  //console.log("localhost:4000/" + req.file.path.replace(/\\/g, "/"));
+  const image =
+    "https://bao-mau-be-0v27.onrender.com/" + req.file.path.replace(/\\/g, "/");
+  const updateImage = await UserModel.findByIdAndUpdate(_id, { image: image });
+  if (updateImage) {
+    res
+      .status(200)
+      .json({ message: "Update ảnh thành công", data: updateImage });
+  } else {
+    res.status(400).json({ message: "Update ảnh thất bại" });
+    throw new Error("Update ảnh thất bại");
+  }
+});
+
 module.exports = {
   registerUser,
   loginUser,
   getAllUser,
   profileUser,
   logoutUser,
+  uploadImageUser,
 };
