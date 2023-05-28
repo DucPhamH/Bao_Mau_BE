@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 const validator = require("validator");
 const ROLE = require("../constants/role");
+const EmployeeModel = require("../models/employeeModel");
 dotenv.config();
 
 const registerUser = asyncHandler(async (req, res, next) => {
@@ -61,10 +62,25 @@ const registerUser = asyncHandler(async (req, res, next) => {
         { expiresIn: "5m" }
       );
       console.log(accessToken);
-      res.status(201).json({
-        message: "Đăng kí thành công!",
-        data: { accessToken: "Bearer" + " " + accessToken, user: newUser },
-      });
+      if (newUser.roles === ROLE.EMPLOYEE) {
+        const createEmployee = await EmployeeModel.create({
+          userID: newUser._id,
+        });
+        if (createEmployee) {
+          res.status(201).json({
+            message: "Đăng kí thành công!",
+            data: { accessToken: "Bearer" + " " + accessToken, user: newUser },
+          });
+        } else {
+          res.status(400);
+          throw new Error("Đăng kí thất bại");
+        }
+      } else {
+        res.status(201).json({
+          message: "Đăng kí thành công!",
+          data: { accessToken: "Bearer" + " " + accessToken, user: newUser },
+        });
+      }
     } else {
       res.status(400);
       throw new Error("Đăng kí thất bại");
