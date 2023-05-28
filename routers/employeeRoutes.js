@@ -5,8 +5,14 @@ const {
   updateEmployee,
   profileEmployee,
 } = require("../controllers/employeeControllers");
+const checkRoleEmployee = require("../middleware/checkRoleEmployee");
 
-router.put("/updateEmployee", validateToken, updateEmployee);
-router.get("/profileEmployee", validateToken, profileEmployee);
+router.put("/updateEmployee", validateToken, checkRoleEmployee, updateEmployee);
+router.get(
+  "/profileEmployee",
+  validateToken,
+  checkRoleEmployee,
+  profileEmployee
+);
 
 module.exports = router;
