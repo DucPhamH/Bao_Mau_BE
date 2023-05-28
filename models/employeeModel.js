@@ -4,13 +4,13 @@ const EMPLOYEE_STATUS = require("../constants/status");
 
 const EmployeeSchema = new mongoose.Schema(
   {
-    dateOB: { type: Date },
+    dateOB: { type: Date, default: new Date() },
     gender: { type: String, default: GENDER.OTHER },
-    degree: { type: String },
-    experience: { type: String },
-    language: { type: String },
-    description: { type: String, maxlength: 1000 },
-    skill: { type: String, maxlength: 1000 },
+    degree: { type: String, default: "" },
+    experience: { type: String, default: "" },
+    language: { type: String, default: "" },
+    description: { type: String, maxlength: 1000, default: "" },
+    skill: { type: String, maxlength: 1000, default: "" },
     salary: { type: Number, require: true },
     status: { type: Number, require: true, default: EMPLOYEE_STATUS.NO_JOB },
     housemaid: { type: Boolean, require: true },
