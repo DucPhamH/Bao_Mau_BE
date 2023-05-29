@@ -4,6 +4,8 @@ const validateToken = require("../middleware/validateTokenHandle");
 const {
   updateEmployee,
   profileEmployee,
+  getAllEmployee,
+  getEmployee,
 } = require("../controllers/employeeControllers");
 const checkRoleEmployee = require("../middleware/checkRoleEmployee");
 
@@ -14,5 +16,5 @@ router.get(
   checkRoleEmployee,
   profileEmployee
 );
-
+router.get("/", getAllEmployee);
 module.exports = router;

@@ -20,21 +20,7 @@ const profileEmployee = asyncHandler(async (req, res, nex) => {
 
 const updateEmployee = asyncHandler(async (req, res, next) => {
   const { _id, roles } = req.user;
-  // const {
-  //   dateOB,
-  //   gender,
-  //   degree,
-  //   experience,
-  //   language,
-  //   description,
-  //   skill,
-  //   salary,
-  //   housemaid,
-  //   babysister,
-  // } = req.body;
 
-  // const employee = await EmployeeModel.findOne({ userID: _id });
-  // if (employee) {
   const updateEmployee = await EmployeeModel.findOneAndUpdate(
     { userID: _id },
     req.body
@@ -47,30 +33,26 @@ const updateEmployee = asyncHandler(async (req, res, next) => {
     res.status(400).json({ message: "update thất bại" });
     throw new Error("update thất bại");
   }
-  //   } else {
-  //     // const createEmployee = await EmployeeModel.create({
-  //     //   userID: _id,
-  //     //   dateOB: dateOB,
-  //     //   gender: gender,
-  //     //   degree: degree,
-  //     //   experience: experience,
-  //     //   language: language,
-  //     //   description: description,
-  //     //   skill: skill,
-  //     //   salary: salary,
-  //     //   housemaid: housemaid,
-  //     //   babysister: babysister,
-  //     // });
-
-  //     // if (createEmployee) {
-  //     //   res
-  //     //     .status(200)
-  //     //     .json({ message: "Update thành công", data: createEmployee });
-  //     // } else //{
-  //     res.status(400).json({ message: "update thất bại" });
-  //     throw new Error("update thất bại");
-  //   }
-  //   // }
 });
 
-module.exports = { updateEmployee, profileEmployee };
+const getAllEmployee = asyncHandler(async (req, res, next) => {
+  const { sort } = req.query;
+
+  const allEmployee = await EmployeeModel.find().populate("userID");
+
+  if (allEmployee) {
+    res.status(200).json({ message: "Lấy thành công", data: allEmployee });
+  } else {
+    res.status(400).json({ message: "Lấy thất bại" });
+    throw new Error("Lấy thất bại");
+  }
+});
+
+const getEmployee = asyncHandler(async (req, res, next) => {});
+
+module.exports = {
+  updateEmployee,
+  profileEmployee,
+  getAllEmployee,
+  getEmployee,
+};
