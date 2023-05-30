@@ -4,7 +4,7 @@ const EMPLOYEE_STATUS = require("../constants/status");
 
 const EmployeeSchema = new mongoose.Schema(
   {
-    dateOB: { type: Date, default: new Date() },
+    dateOB: { type: Date, default: new Date().toISOString() },
     gender: { type: String, default: GENDER.OTHER },
     degree: { type: String, default: "" },
     experience: { type: String, default: "" },

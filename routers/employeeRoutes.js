@@ -17,4 +17,5 @@ router.get(
   profileEmployee
 );
 router.get("/", getAllEmployee);
+router.get("/:id", getEmployee);
 module.exports = router;
