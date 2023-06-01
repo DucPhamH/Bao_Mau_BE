@@ -59,7 +59,7 @@ const registerUser = asyncHandler(async (req, res, next) => {
           roles: newUser.roles,
         },
         process.env.ACCESS_TOKEN_SECERT,
-        { expiresIn: "5m" }
+        { expiresIn: "7d" }
       );
       console.log(accessToken);
       if (newUser.roles === ROLE.EMPLOYEE) {
@@ -122,7 +122,7 @@ const loginUser = asyncHandler(async (req, res, next) => {
         roles: user.roles,
       },
       process.env.ACCESS_TOKEN_SECERT,
-      { expiresIn: "5m" }
+      { expiresIn: "7d" }
     );
     console.log(accessToken);
     res.status(200).json({
