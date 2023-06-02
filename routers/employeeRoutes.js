@@ -8,6 +8,7 @@ const {
   getEmployee,
 } = require("../controllers/employeeControllers");
 const checkRoleEmployee = require("../middleware/checkRoleEmployee");
+const checkRoleUser = require("../middleware/checkRoleUser");
 
 router.put("/updateEmployee", validateToken, checkRoleEmployee, updateEmployee);
 router.get(
@@ -16,6 +17,6 @@ router.get(
   checkRoleEmployee,
   profileEmployee
 );
-router.get("/", getAllEmployee);
-router.get("/:id", getEmployee);
+router.get("/", validateToken, checkRoleUser, getAllEmployee);
+router.get("/:id", validateToken, checkRoleUser, getEmployee);
 module.exports = router;
