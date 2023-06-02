@@ -52,11 +52,20 @@ class APIFeatures {
 
       const date = year - parseInt(this.queryString.age);
       console.log(date);
-      const dateOB = date + "-12-31T00:00:00Z";
+      const dateOB = date + "-01-01T00:00:00Z";
 
       console.log(dateOB);
 
       this.query.find({ dateOB: { $gte: dateOB } });
+      return this;
+    } else {
+      return this;
+    }
+  }
+
+  sort() {
+    if (this.queryString.sort === "asc") {
+      this.query.sort({ salary: this.queryString.sort });
       return this;
     } else {
       return this;

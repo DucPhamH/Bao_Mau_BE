@@ -51,7 +51,8 @@ const getAllEmployee = asyncHandler(async (req, res, next) => {
     .checkRole()
     .filter()
     .salary()
-    .date();
+    .date()
+    .sort();
 
   const allEmployee = await features.query;
   if (allEmployee) {
