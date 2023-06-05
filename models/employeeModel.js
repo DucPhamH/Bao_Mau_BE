@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const GENDER = require("../constants/gender");
-const EMPLOYEE_STATUS = require("../constants/status");
+const { EMPLOYEE_STATUS } = require("../constants/status");
 
 const EmployeeSchema = new mongoose.Schema(
   {

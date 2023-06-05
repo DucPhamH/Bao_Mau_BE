@@ -37,12 +37,14 @@ const updateEmployee = asyncHandler(async (req, res, next) => {
 });
 
 const getAllEmployee = asyncHandler(async (req, res, next) => {
-  const { sort } = req.query;
-
+  // const { sort } = req.query;
   // const allEmployee = await EmployeeModel.find().populate({
   //   path: "userID",
+  //   select: "name",
   //   options: { sort: [{ name: "asc" }] },
   // });
+
+  // .collation({ locale: "en", caseLevel: true });
 
   const features = new APIFeatures(
     EmployeeModel.find().populate("userID"),
