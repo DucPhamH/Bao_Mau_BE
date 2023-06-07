@@ -14,6 +14,18 @@ class APIFeatures {
     return this;
   }
 
+  checkStatus() {
+    if (parseInt(this.queryString.status) === 0) {
+      console.log(this.queryString.status);
+      this.query = this.query.find({
+        status: parseInt(this.queryString.status),
+      });
+      return this;
+    } else {
+      return this;
+    }
+  }
+
   filter() {
     if (this.queryString.querySearch) {
       this.query.find({
@@ -28,6 +40,17 @@ class APIFeatures {
             },
           },
         ],
+      });
+      return this;
+    } else {
+      return this;
+    }
+  }
+
+  filterDate() {
+    if (this.queryString.queryDate) {
+      this.query.find({
+        age: { $regex: this.queryString.queryDate, $options: "i" },
       });
       return this;
     } else {

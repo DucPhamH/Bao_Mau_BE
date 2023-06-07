@@ -17,6 +17,8 @@ router.get(
   checkRoleEmployee,
   profileEmployee
 );
-router.get("/", validateToken, checkRoleUser, getAllEmployee);
-router.get("/:id", validateToken, checkRoleUser, getEmployee);
+// router.get("/", validateToken, checkRoleUser, getAllEmployee);
+// router.get("/:id", validateToken, checkRoleUser, getEmployee);
+router.get("/", getAllEmployee);
+router.get("/:id", getEmployee);
 module.exports = router;
