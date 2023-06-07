@@ -15,7 +15,7 @@ const createPost = asyncHandler(async (req, res, next) => {
 
 const getAllPost = asyncHandler(async (req, res, next) => {
   const features = new APIFeatures(
-    PostModel.find().populate("userID"),
+    PostModel.find({ status: 0 }).populate("userID"),
     req.query
   )
     .checkRole()

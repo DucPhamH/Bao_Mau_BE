@@ -47,7 +47,7 @@ const getAllEmployee = asyncHandler(async (req, res, next) => {
   // .collation({ locale: "en", caseLevel: true });
 
   const features = new APIFeatures(
-    EmployeeModel.find().populate("userID"),
+    EmployeeModel.find({ status: 0 }).populate("userID"),
     req.query
   )
     .checkRole()
