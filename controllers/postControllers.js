@@ -37,9 +37,9 @@ const getAllPost = asyncHandler(async (req, res, next) => {
 const getAllPostSend = asyncHandler(async (req, res, next) => {
   const { _id } = req.user;
 
-  const { employeeID } = req.body;
+  const { id } = req.params;
 
-  const employee = await EmployeeModel.findById({ _id: employeeID });
+  const employee = await EmployeeModel.findById({ _id: id });
   console.log(employee);
   if (employee) {
     if (employee.babysister === true) {
