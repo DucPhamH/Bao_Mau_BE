@@ -11,6 +11,6 @@ const router = express.Router();
 
 router.post("/createPost", validateToken, checkRoleUser, createPost);
 router.get("/", validateToken, getAllPost);
-router.get("/getAllPostSend", validateToken, checkRoleUser, getAllPostSend);
-router.get("/:id", getPost);
+router.post("/getAllPostSend", validateToken, checkRoleUser, getAllPostSend);
+router.get("/:id", validateToken, getPost);
 module.exports = router;
