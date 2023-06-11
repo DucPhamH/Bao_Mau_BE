@@ -8,4 +8,9 @@ const POST_STATUS = {
   NO_JOB: 0,
 };
 
-module.exports = { EMPLOYEE_STATUS, POST_STATUS };
+const REQUEST_STATUS = {
+  PENDING: 0,
+  ACCEPT: 1,
+};
+
+module.exports = { EMPLOYEE_STATUS, POST_STATUS, REQUEST_STATUS };

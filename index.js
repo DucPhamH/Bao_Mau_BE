@@ -8,6 +8,7 @@ const morgan = require("morgan");
 const userRouter = require("./routers/userRoutes");
 const employeeRouter = require("./routers/employeeRoutes");
 const postRouter = require("./routers/postRouters");
+const requestRouter = require("./routers/requestRoutes");
 const db = require("./config/db");
 db.connectDB();
 
@@ -20,6 +21,7 @@ app.use(morgan("combined"));
 app.use("/api/users", userRouter);
 app.use("/api/employees", employeeRouter);
 app.use("/api/posts", postRouter);
+app.use("/api/requests", requestRouter);
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
