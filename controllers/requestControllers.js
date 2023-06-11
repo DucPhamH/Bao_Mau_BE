@@ -2,6 +2,7 @@ const asyncHandler = require("express-async-handler");
 const RequestModel = require("../models/requestModel");
 const APIFeatures = require("../middleware/apiFeatures");
 const EmployeeModel = require("../models/employeeModel");
+const { REQUEST_STATUS } = require("../constants/status");
 
 const createRequest = asyncHandler(async (req, res, next) => {
   // const { _id } = req.user;
@@ -76,14 +77,6 @@ const getAllRequest = asyncHandler(async (req, res, next) => {
   const request = await RequestModel.find({})
     .populate("employeeID")
     .populate("postID");
-
-  // const features = new APIFeatures(
-  //   RequestModel.find({}).populate("employeeID").populate("postID"),
-  //   req.query
-  // ).sort2();
-
-  // const request = await features.query;
-
   if (request) {
     res.status(200).json({ message: "gửi request thành công", data: request });
   } else {
@@ -92,4 +85,28 @@ const getAllRequest = asyncHandler(async (req, res, next) => {
   }
 });
 
-module.exports = { createRequest, getAllRequest, createRequest2 };
+const getRequestEmployee = asyncHandler(async (req, res, next) => {
+  const { id } = req.params;
+  const requestEmployee = await RequestModel.find({
+    postID: id,
+    status: REQUEST_STATUS.PENDING,
+  })
+    .populate("employeeID")
+    .populate("postID");
+  if (requestEmployee) {
+    res.status(200).json({
+      message: "gửi requestEmployee thành công",
+      data: requestEmployee,
+    });
+  } else {
+    res.status(400).json({ message: "gửi requestEmployee thất bại" });
+    throw new Error("Lấy thất bại");
+  }
+});
+
+module.exports = {
+  createRequest,
+  getAllRequest,
+  createRequest2,
+  getRequestEmployee,
+};
