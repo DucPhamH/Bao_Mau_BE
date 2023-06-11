@@ -9,8 +9,9 @@ const POST_STATUS = {
 };
 
 const REQUEST_STATUS = {
-  PENDING: 0,
-  ACCEPT: 1,
+  IS_USER: 0,
+  IS_EMPLOYEE: 1,
+  ACCEPT: 2,
 };
 
 module.exports = { EMPLOYEE_STATUS, POST_STATUS, REQUEST_STATUS };

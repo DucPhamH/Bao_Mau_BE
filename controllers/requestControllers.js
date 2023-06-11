@@ -23,6 +23,7 @@ const createRequest = asyncHandler(async (req, res, next) => {
     const newRequest = await RequestModel.create({
       postID: postID,
       employeeID: employeeID,
+      status: REQUEST_STATUS.IS_USER,
     });
     if (newRequest) {
       res
@@ -57,6 +58,7 @@ const createRequest2 = asyncHandler(async (req, res, next) => {
       const newRequest = await RequestModel.create({
         postID: postID,
         employeeID: getEmployee._id,
+        status: REQUEST_STATUS.IS_EMPLOYEE,
       });
       if (newRequest) {
         res
@@ -89,7 +91,7 @@ const getRequestEmployee = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
   const requestEmployee = await RequestModel.find({
     postID: id,
-    status: REQUEST_STATUS.PENDING,
+    status: REQUEST_STATUS.IS_EMPLOYEE,
   })
     .populate({ path: "employeeID", populate: { path: "userID" } })
     .populate("postID");

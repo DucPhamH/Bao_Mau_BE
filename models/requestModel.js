@@ -3,7 +3,7 @@ const { REQUEST_STATUS } = require("../constants/status");
 
 const RequestSchema = new mongoose.Schema(
   {
-    status: { type: Number, require: true, default: REQUEST_STATUS.PENDING },
+    status: { type: Number, require: true },
     date: { type: Date, default: new Date().toISOString() },
     postID: {
       type: mongoose.SchemaTypes.ObjectId,
