@@ -91,7 +91,7 @@ const getRequestEmployee = asyncHandler(async (req, res, next) => {
     postID: id,
     status: REQUEST_STATUS.PENDING,
   })
-    .populate("employeeID")
+    .populate({ path: "employeeID", populate: { path: "userID" } })
     .populate("postID");
   if (requestEmployee) {
     res.status(200).json({
