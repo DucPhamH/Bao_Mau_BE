@@ -106,9 +106,37 @@ const getRequestEmployee = asyncHandler(async (req, res, next) => {
   }
 });
 
+const getRequestUser = asyncHandler(async (req, res, next) => {
+  const { _id } = req.user;
+
+  const getEmployee = await EmployeeModel.findOne({ userID: _id });
+
+  if (getEmployee) {
+    const requestEmployee = await RequestModel.find({
+      employeeID: getEmployee._id,
+      status: REQUEST_STATUS.IS_USER,
+    })
+      .populate({ path: "employeeID", populate: { path: "userID" } })
+      .populate({ path: "postID", populate: { path: "userID" } });
+    if (requestEmployee) {
+      res.status(200).json({
+        message: "gửi requestEmployee thành công",
+        data: requestEmployee,
+      });
+    } else {
+      res.status(400).json({ message: "gửi requestEmployee thất bại" });
+      throw new Error("Lấy thất bại");
+    }
+  } else {
+    res.status(400).json({ message: "gửi request thất bại" });
+    throw new Error("Lấy thất bại");
+  }
+});
+
 module.exports = {
   createRequest,
   getAllRequest,
   createRequest2,
   getRequestEmployee,
+  getRequestUser
 };
