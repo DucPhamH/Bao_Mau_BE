@@ -206,12 +206,12 @@ const acceptRequest = asyncHandler(async (req, res, next) => {
       ],
     });
 
-    await EmployeeModel.findByIdAndUpdate(
+    await EmployeeModel.findOneAndUpdate(
       { _id: employeeID },
       { status: EMPLOYEE_STATUS.HAS_JOB }
     );
 
-    await PostModel.findByIdAndUpdate(
+    await PostModel.findOneAndUpdate(
       { _id: postID },
       { status: POST_STATUS.HAS_JOB }
     );
