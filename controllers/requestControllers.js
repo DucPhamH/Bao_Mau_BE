@@ -1,6 +1,5 @@
 const asyncHandler = require("express-async-handler");
 const RequestModel = require("../models/requestModel");
-const APIFeatures = require("../middleware/apiFeatures");
 const EmployeeModel = require("../models/employeeModel");
 const { REQUEST_STATUS } = require("../constants/status");
 
@@ -133,10 +132,39 @@ const getRequestUser = asyncHandler(async (req, res, next) => {
   }
 });
 
+const deleteRequestUser = asyncHandler(async (req, res, next) => {
+  const { _id } = req.user;
+  const { postID } = req.body;
+
+  const getEmployee = await EmployeeModel.findOne({ userID: _id });
+
+  if (getEmployee) {
+    const deleteRequest = await RequestModel.findOneAndDelete({
+      employeeID: getEmployee._id,
+      postID: postID,
+    });
+    if (deleteRequest) {
+      res.status(200).json({
+        message: "xoá thành công",
+        data: deleteRequest,
+      });
+    } else {
+      res.status(400).json({ message: "xoá thất bại" });
+      throw new Error("xoá thất bại");
+    }
+  } else {
+    res.status(400).json({ message: "Xoá thất bại" });
+    throw new Error("Xoá thất bại");
+  }
+});
+const deleteRequestEmployee = asyncHandler(async (req, res, next) => {});
+
 module.exports = {
   createRequest,
   getAllRequest,
   createRequest2,
   getRequestEmployee,
-  getRequestUser
+  getRequestUser,
+  deleteRequestEmployee,
+  deleteRequestUser,
 };

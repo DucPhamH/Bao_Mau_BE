@@ -7,12 +7,14 @@ const {
   createRequest2,
   getRequestEmployee,
   getRequestUser,
+  deleteRequestUser,
 } = require("../controllers/requestControllers");
 
 const router = express.Router();
 router.post("/createRequest", validateToken, createRequest);
 router.get("/", getAllRequest);
 router.post("/createRequest2", validateToken, createRequest2);
+router.post("/deleteRequestUser", validateToken, deleteRequestUser);
 router.get("/getRequestEmployee/:id", validateToken, getRequestEmployee);
 router.get("/getRequestUser", validateToken, getRequestUser);
 module.exports = router;
