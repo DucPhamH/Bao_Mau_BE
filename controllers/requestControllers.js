@@ -157,7 +157,22 @@ const deleteRequestUser = asyncHandler(async (req, res, next) => {
     throw new Error("Xoá thất bại");
   }
 });
-const deleteRequestEmployee = asyncHandler(async (req, res, next) => {});
+const deleteRequestEmployee = asyncHandler(async (req, res, next) => {
+  const { postID, employeeID } = req.body;
+  const deleteRequest = await RequestModel.findOneAndDelete({
+    employeeID: employeeID,
+    postID: postID,
+  });
+  if (deleteRequest) {
+    res.status(200).json({
+      message: "xoá thành công",
+      data: deleteRequest,
+    });
+  } else {
+    res.status(400).json({ message: "xoá thất bại" });
+    throw new Error("xoá thất bại");
+  }
+});
 
 module.exports = {
   createRequest,
