@@ -47,30 +47,34 @@ const createRequest2 = asyncHandler(async (req, res, next) => {
   const getEmployee = await EmployeeModel.findOne({ userID: _id });
 
   if (getEmployee) {
-    console.log(getEmployee._id);
-    const request = await RequestModel.findOne({
-      postID: postID,
-      employeeID: getEmployee._id,
-    });
-
-    if (request) {
-      res
-        .status(400)
-        .json({ message: "gửi request thất bại, bạn đã gửi request này rồi" });
+    if (getEmployee.status === EMPLOYEE_STATUS.HAS_JOB) {
+      res.status(400).json({ message: "Bạn đã nhận việc ,gửi thất bại" });
       throw new Error("Lấy thất bại");
     } else {
-      const newRequest = await RequestModel.create({
+      const request = await RequestModel.findOne({
         postID: postID,
         employeeID: getEmployee._id,
-        status: REQUEST_STATUS.IS_EMPLOYEE,
       });
-      if (newRequest) {
-        res
-          .status(200)
-          .json({ message: "gửi request thành công", data: newRequest });
-      } else {
-        res.status(400).json({ message: "gửi request thất bại" });
+
+      if (request) {
+        res.status(400).json({
+          message: "gửi request thất bại, bạn đã gửi request này rồi",
+        });
         throw new Error("Lấy thất bại");
+      } else {
+        const newRequest = await RequestModel.create({
+          postID: postID,
+          employeeID: getEmployee._id,
+          status: REQUEST_STATUS.IS_EMPLOYEE,
+        });
+        if (newRequest) {
+          res
+            .status(200)
+            .json({ message: "gửi request thành công", data: newRequest });
+        } else {
+          res.status(400).json({ message: "gửi request thất bại" });
+          throw new Error("Lấy thất bại");
+        }
       }
     }
   } else {
