@@ -1,7 +1,12 @@
 const asyncHandler = require("express-async-handler");
 const RequestModel = require("../models/requestModel");
 const EmployeeModel = require("../models/employeeModel");
-const { REQUEST_STATUS } = require("../constants/status");
+const {
+  REQUEST_STATUS,
+  EMPLOYEE_STATUS,
+  POST_STATUS,
+} = require("../constants/status");
+const PostModel = require("../models/postModel");
 
 const createRequest = asyncHandler(async (req, res, next) => {
   // const { _id } = req.user;
@@ -200,6 +205,16 @@ const acceptRequest = asyncHandler(async (req, res, next) => {
         { employeeID: employeeID, status: 1 },
       ],
     });
+
+    await EmployeeModel.findByIdAndUpdate(
+      { _id: employeeID },
+      { status: EMPLOYEE_STATUS.HAS_JOB }
+    );
+
+    await PostModel.findByIdAndUpdate(
+      { _id: postID },
+      { status: POST_STATUS.HAS_JOB }
+    );
     res.status(200).json({
       message: "Cập nhật thành công",
       data: accept,
