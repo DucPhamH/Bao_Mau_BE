@@ -174,6 +174,42 @@ const deleteRequestEmployee = asyncHandler(async (req, res, next) => {
   }
 });
 
+const acceptRequest = asyncHandler(async (req, res, next) => {
+  const { postID, employeeID } = req.body;
+  const accept = await RequestModel.findOneAndUpdate(
+    {
+      employeeID: employeeID,
+      postID: postID,
+    },
+    { status: REQUEST_STATUS.ACCEPT },
+    { new: true }
+  )
+    .populate({ path: "employeeID", populate: { path: "userID" } })
+    .populate({ path: "postID", populate: { path: "userID" } });
+  if (accept) {
+    await RequestModel.deleteMany({
+      $or: [
+        { postID: postID, status: 0 },
+        { postID: postID, status: 1 },
+      ],
+    });
+
+    await RequestModel.deleteMany({
+      $or: [
+        { employeeID: employeeID, status: 0 },
+        { employeeID: employeeID, status: 1 },
+      ],
+    });
+    res.status(200).json({
+      message: "Cập nhật thành công",
+      data: accept,
+    });
+  } else {
+    res.status(400).json({ message: "Cập nhật thất bại" });
+    throw new Error("xoá thất bại");
+  }
+});
+
 module.exports = {
   createRequest,
   getAllRequest,
@@ -182,4 +218,5 @@ module.exports = {
   getRequestUser,
   deleteRequestEmployee,
   deleteRequestUser,
+  acceptRequest,
 };

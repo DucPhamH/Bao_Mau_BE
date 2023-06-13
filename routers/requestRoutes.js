@@ -9,6 +9,7 @@ const {
   getRequestUser,
   deleteRequestUser,
   deleteRequestEmployee,
+  acceptRequest,
 } = require("../controllers/requestControllers");
 
 const router = express.Router();
@@ -19,4 +20,5 @@ router.post("/deleteRequestUser", validateToken, deleteRequestUser);
 router.post("/deleteRequestEmployee", validateToken, deleteRequestEmployee);
 router.get("/getRequestEmployee/:id", validateToken, getRequestEmployee);
 router.get("/getRequestUser", validateToken, getRequestUser);
+router.post("/acceptRequest", validateToken, acceptRequest);
 module.exports = router;
