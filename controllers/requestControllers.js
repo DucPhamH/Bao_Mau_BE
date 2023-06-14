@@ -258,6 +258,29 @@ const getAcceptRequets = asyncHandler(async (req, res, next) => {
   }
 });
 
+const cancelRequest = asyncHandler(async (req, res, next) => {
+  const { postID } = req.body;
+
+  const getRequest = await RequestModel.findOneAndUpdate(
+    { postID: postID },
+    { status: REQUEST_STATUS.PENDING }
+  );
+
+  if (getRequest) {
+    await PostModel.findOneAndUpdate(
+      { _id: postID },
+      { status: POST_STATUS.PENDING }
+    );
+    res.status(200).json({
+      message: "Gửi cho bảo mẫu thành công",
+      data: getRequest,
+    });
+  } else {
+    res.status(400).json({ message: "Gửi thất bại" });
+    throw new Error("Gửi thất bại");
+  }
+});
+
 module.exports = {
   createRequest,
   getAllRequest,
@@ -268,4 +291,5 @@ module.exports = {
   deleteRequestUser,
   acceptRequest,
   getAcceptRequets,
+  cancelRequest,
 };

@@ -11,6 +11,7 @@ const {
   deleteRequestEmployee,
   acceptRequest,
   getAcceptRequets,
+  cancelRequest,
 } = require("../controllers/requestControllers");
 
 const router = express.Router();
@@ -23,4 +24,5 @@ router.get("/getRequestEmployee/:id", validateToken, getRequestEmployee);
 router.get("/getRequestUser", validateToken, getRequestUser);
 router.post("/acceptRequest", validateToken, acceptRequest);
 router.get("/getAcceptRequets", validateToken, getAcceptRequets);
+router.post("/cancelRequest", validateToken, cancelRequest);
 module.exports = router;
