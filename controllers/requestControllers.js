@@ -229,6 +229,35 @@ const acceptRequest = asyncHandler(async (req, res, next) => {
   }
 });
 
+const getAcceptRequets = asyncHandler(async (req, res, next) => {
+  const { _id } = req.user;
+
+  const getEmployee = await EmployeeModel.findOne({ userID: _id });
+
+  if (getEmployee) {
+    const getRequest = await RequestModel.find({
+      $or: [
+        { employeeID: getEmployee._id, status: REQUEST_STATUS.ACCEPT },
+        { employeeID: getEmployee._id, status: REQUEST_STATUS.PENDING },
+      ],
+    })
+      .populate({ path: "employeeID", populate: { path: "userID" } })
+      .populate({ path: "postID", populate: { path: "userID" } });
+    if (getRequest) {
+      res.status(200).json({
+        message: "Lấy thành công",
+        data: getRequest,
+      });
+    } else {
+      res.status(400).json({ message: "Lấy thất bại" });
+      throw new Error("Lấy thất bại");
+    }
+  } else {
+    res.status(400).json({ message: "lấy thất bại" });
+    throw new Error("lấy thất bại");
+  }
+});
+
 module.exports = {
   createRequest,
   getAllRequest,
@@ -238,4 +267,5 @@ module.exports = {
   deleteRequestEmployee,
   deleteRequestUser,
   acceptRequest,
+  getAcceptRequets,
 };
