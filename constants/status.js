@@ -16,4 +16,14 @@ const REQUEST_STATUS = {
   PENDING: 3,
 };
 
-module.exports = { EMPLOYEE_STATUS, POST_STATUS, REQUEST_STATUS };
+const PAYMENT_STATUS = {
+  NO_PAY: 0,
+  YES_PAY: 1,
+};
+
+module.exports = {
+  EMPLOYEE_STATUS,
+  POST_STATUS,
+  REQUEST_STATUS,
+  PAYMENT_STATUS,
+};
