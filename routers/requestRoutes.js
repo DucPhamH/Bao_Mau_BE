@@ -12,6 +12,7 @@ const {
   acceptRequest,
   getAcceptRequets,
   cancelRequest,
+  acceptCancelRequest,
 } = require("../controllers/requestControllers");
 
 const router = express.Router();
@@ -25,4 +26,5 @@ router.get("/getRequestUser", validateToken, getRequestUser);
 router.post("/acceptRequest", validateToken, acceptRequest);
 router.get("/getAcceptRequets", validateToken, getAcceptRequets);
 router.post("/cancelRequest", validateToken, cancelRequest);
+router.post("/acceptCancelRequest", validateToken, acceptCancelRequest);
 module.exports = router;

@@ -281,6 +281,30 @@ const cancelRequest = asyncHandler(async (req, res, next) => {
   }
 });
 
+const acceptCancelRequest = asyncHandler(async (req, res, next) => {
+  const { postID, employeeID } = req.body;
+
+  const getEmployee = await EmployeeModel.findOneAndUpdate(
+    { _id: employeeID },
+    { status: EMPLOYEE_STATUS.NO_JOB }
+  );
+
+  if (getEmployee) {
+    await PostModel.findOneAndDelete({ _id: postID });
+    await RequestModel.findOneAndDelete({
+      postID: postID,
+      employeeID: employeeID,
+    });
+    res.status(200).json({
+      message: "Huỷ hợp đồng thành công",
+      data: getEmployee,
+    });
+  } else {
+    res.status(400).json({ message: "Gửi thất bại" });
+    throw new Error("Gửi thất bại");
+  }
+});
+
 module.exports = {
   createRequest,
   getAllRequest,
@@ -292,4 +316,5 @@ module.exports = {
   acceptRequest,
   getAcceptRequets,
   cancelRequest,
+  acceptCancelRequest,
 };
