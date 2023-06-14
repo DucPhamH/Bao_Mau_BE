@@ -102,8 +102,10 @@ const getAllPostUser = asyncHandler(async (req, res, next) => {
 const getAllPostUserAccept = asyncHandler(async (req, res, next) => {
   const { _id } = req.user;
   const post = await PostModel.find({
-    userID: _id,
-    status: POST_STATUS.HAS_JOB,
+    $or: [
+      { userID: _id, status: POST_STATUS.HAS_JOB },
+      { userID: _id, status: POST_STATUS.PENDING },
+    ],
   }).populate("userID");
   if (post) {
     res.status(200).json({ message: "Lấy post thành công", data: post });

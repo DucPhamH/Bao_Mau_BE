@@ -6,6 +6,7 @@ const EMPLOYEE_STATUS = {
 const POST_STATUS = {
   HAS_JOB: 1,
   NO_JOB: 0,
+  PENDING: 2,
 };
 
 const REQUEST_STATUS = {
