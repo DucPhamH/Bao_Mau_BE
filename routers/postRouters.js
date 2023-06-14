@@ -7,12 +7,19 @@ const {
   getAllPostSend,
   getPost,
   getAllPostUser,
+  getAllPostUserAccept,
 } = require("../controllers/postControllers");
 const router = express.Router();
 
 router.post("/createPost", validateToken, checkRoleUser, createPost);
 router.get("/", validateToken, getAllPost);
 router.get("/getAllPostUser", validateToken, checkRoleUser, getAllPostUser);
+router.get(
+  "/getAllPostUserAccept",
+  validateToken,
+  checkRoleUser,
+  getAllPostUserAccept
+);
 router.get("/getAllPostSend/:id", validateToken, checkRoleUser, getAllPostSend);
 router.get("/:id", validateToken, getPost);
 module.exports = router;
