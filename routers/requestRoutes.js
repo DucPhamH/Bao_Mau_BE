@@ -13,6 +13,7 @@ const {
   getAcceptRequets,
   cancelRequest,
   acceptCancelRequest,
+  createPayment,
 } = require("../controllers/requestControllers");
 
 const router = express.Router();
@@ -27,4 +28,5 @@ router.post("/acceptRequest", validateToken, acceptRequest);
 router.get("/getAcceptRequets", validateToken, getAcceptRequets);
 router.post("/cancelRequest", validateToken, cancelRequest);
 router.post("/acceptCancelRequest", validateToken, acceptCancelRequest);
+router.post("/createPayment", validateToken, createPayment);
 module.exports = router;

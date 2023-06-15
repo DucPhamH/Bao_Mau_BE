@@ -7,6 +7,7 @@ const {
   POST_STATUS,
 } = require("../constants/status");
 const PostModel = require("../models/postModel");
+const PaymentModel = require("../models/paymentModel");
 
 const createRequest = asyncHandler(async (req, res, next) => {
   // const { _id } = req.user;
@@ -219,6 +220,7 @@ const acceptRequest = asyncHandler(async (req, res, next) => {
       { _id: postID },
       { status: POST_STATUS.HAS_JOB }
     );
+
     res.status(200).json({
       message: "Cập nhật thành công",
       data: accept,
@@ -291,17 +293,47 @@ const acceptCancelRequest = asyncHandler(async (req, res, next) => {
 
   if (getEmployee) {
     await PostModel.findOneAndDelete({ _id: postID });
-    await RequestModel.findOneAndDelete({
+    const requestFind = await RequestModel.findOne({
       postID: postID,
       employeeID: employeeID,
     });
-    res.status(200).json({
-      message: "Huỷ hợp đồng thành công",
-      data: getEmployee,
-    });
+    if (requestFind) {
+      await PaymentModel.findOneAndDelete({
+        requestID: requestFind._id,
+      });
+      await RequestModel.findOneAndDelete({
+        postID: postID,
+        employeeID: employeeID,
+      });
+      res.status(200).json({
+        message: "Huỷ hợp đồng thành công",
+        data: getEmployee,
+      });
+    } else {
+      res.status(400).json({ message: "Gửi thất bại" });
+      throw new Error("Gửi thất bại");
+    }
   } else {
     res.status(400).json({ message: "Gửi thất bại" });
     throw new Error("Gửi thất bại");
+  }
+});
+
+const createPayment = asyncHandler(async (req, res, next) => {
+  // const { _id } = req.user;
+
+  const { count, requestID, totalPrice } = req.body;
+
+  const newPayment = await PaymentModel.create({
+    count: count,
+    requestID: requestID,
+    totalPrice: totalPrice,
+  });
+  if (newPayment) {
+    res.status(200).json({ message: "tạo thành công", data: newPayment });
+  } else {
+    res.status(400).json({ message: "tạo thất bại" });
+    throw new Error("Lấy thất bại");
   }
 });
 
@@ -317,4 +349,5 @@ module.exports = {
   getAcceptRequets,
   cancelRequest,
   acceptCancelRequest,
+  createPayment,
 };
