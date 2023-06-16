@@ -5,6 +5,7 @@ const {
   REQUEST_STATUS,
   EMPLOYEE_STATUS,
   POST_STATUS,
+  PAYMENT_STATUS,
 } = require("../constants/status");
 const PostModel = require("../models/postModel");
 const PaymentModel = require("../models/paymentModel");
@@ -364,6 +365,25 @@ const getPayment = asyncHandler(async (req, res, next) => {
   }
 });
 
+const updatePayment = asyncHandler(async (req, res, next) => {
+  const { _id } = req.body;
+
+  const payment = await PaymentModel.findOneAndUpdate(
+    {
+      _id: _id,
+    },
+    {
+      status: PAYMENT_STATUS.YES_PAY,
+    }
+  );
+  if (payment) {
+    res.status(200).json({ message: "Lấy thành công", data: payment });
+  } else {
+    res.status(400).json({ message: "Lấy thất bại" });
+    throw new Error("Lấy thất bại");
+  }
+});
+
 module.exports = {
   createRequest,
   getAllRequest,
@@ -378,4 +398,5 @@ module.exports = {
   acceptCancelRequest,
   createPayment,
   getPayment,
+  updatePayment,
 };
