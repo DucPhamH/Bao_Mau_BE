@@ -8,6 +8,7 @@ const {
   getPost,
   getAllPostUser,
   getAllPostUserAccept,
+  getAllPostUserPayment,
 } = require("../controllers/postControllers");
 const router = express.Router();
 
@@ -19,6 +20,12 @@ router.get(
   validateToken,
   checkRoleUser,
   getAllPostUserAccept
+);
+router.get(
+  "/getAllPostUserPayment",
+  validateToken,
+  checkRoleUser,
+  getAllPostUserPayment
 );
 router.get("/getAllPostSend/:id", validateToken, checkRoleUser, getAllPostSend);
 router.get("/:id", validateToken, getPost);

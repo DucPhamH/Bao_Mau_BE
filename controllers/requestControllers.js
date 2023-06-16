@@ -8,6 +8,7 @@ const {
 } = require("../constants/status");
 const PostModel = require("../models/postModel");
 const PaymentModel = require("../models/paymentModel");
+const { request } = require("express");
 
 const createRequest = asyncHandler(async (req, res, next) => {
   // const { _id } = req.user;
@@ -337,6 +338,32 @@ const createPayment = asyncHandler(async (req, res, next) => {
   }
 });
 
+const getPayment = asyncHandler(async (req, res, next) => {
+  const { id } = req.params;
+
+  const request = await RequestModel.findOne({
+    postID: id,
+    status: REQUEST_STATUS.ACCEPT,
+  });
+  if (request) {
+    const payment = await PaymentModel.findOne({
+      requestID: request._id,
+    }).populate([
+      { path: "requestID", populate: { path: "employeeID" } },
+      { path: "requestID", populate: { path: "postID" } },
+    ]);
+    if (payment) {
+      res.status(200).json({ message: "Lấy thành công", data: payment });
+    } else {
+      res.status(400).json({ message: "Lấy thất bại" });
+      throw new Error("Lấy thất bại");
+    }
+  } else {
+    res.status(400).json({ message: "Lấy thất bại" });
+    throw new Error("Lấy thất bại");
+  }
+});
+
 module.exports = {
   createRequest,
   getAllRequest,
@@ -350,4 +377,5 @@ module.exports = {
   cancelRequest,
   acceptCancelRequest,
   createPayment,
+  getPayment,
 };

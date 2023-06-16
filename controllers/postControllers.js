@@ -115,6 +115,20 @@ const getAllPostUserAccept = asyncHandler(async (req, res, next) => {
   }
 });
 
+const getAllPostUserPayment = asyncHandler(async (req, res, next) => {
+  const { _id } = req.user;
+  const post = await PostModel.find({
+    userID: _id,
+    status: POST_STATUS.HAS_JOB,
+  }).populate("userID");
+  if (post) {
+    res.status(200).json({ message: "Lấy post thành công", data: post });
+  } else {
+    res.status(400).json({ message: "Lấy thất bại" });
+    throw new Error("Lấy thất bại");
+  }
+});
+
 module.exports = {
   createPost,
   getAllPost,
@@ -122,4 +136,5 @@ module.exports = {
   getPost,
   getAllPostUser,
   getAllPostUserAccept,
+  getAllPostUserPayment,
 };
