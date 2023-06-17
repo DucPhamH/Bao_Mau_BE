@@ -350,8 +350,14 @@ const getPayment = asyncHandler(async (req, res, next) => {
     const payment = await PaymentModel.findOne({
       requestID: request._id,
     }).populate([
-      { path: "requestID", populate: { path: "employeeID" } },
-      { path: "requestID", populate: { path: "postID" } },
+      {
+        path: "requestID",
+        populate: { path: "employeeID", populate: { path: "userID" } },
+      },
+      {
+        path: "requestID",
+        populate: { path: "postID", populate: { path: "userID" } },
+      },
     ]);
     if (payment) {
       res.status(200).json({ message: "Lấy thành công", data: payment });
