@@ -9,6 +9,7 @@ const {
   getAllPostUser,
   getAllPostUserAccept,
   getAllPostUserPayment,
+  deletePosts,
 } = require("../controllers/postControllers");
 const router = express.Router();
 
@@ -29,4 +30,5 @@ router.get(
 );
 router.get("/getAllPostSend/:id", validateToken, checkRoleUser, getAllPostSend);
 router.get("/:id", validateToken, getPost);
+router.delete("/:id", deletePosts);
 module.exports = router;

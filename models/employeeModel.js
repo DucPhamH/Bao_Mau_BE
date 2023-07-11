@@ -13,8 +13,8 @@ const EmployeeSchema = new mongoose.Schema(
     skill: { type: String, maxlength: 1000, default: "" },
     salary: { type: Number, require: true, default: 0 },
     status: { type: Number, require: true, default: EMPLOYEE_STATUS.NO_JOB },
-    housemaid: { type: Boolean, require: true, default: true },
-    babysister: { type: Boolean, require: true, default: true },
+    housemaid: { type: Boolean, require: true, default: false },
+    babysister: { type: Boolean, require: true, default: false },
     userID: {
       type: mongoose.SchemaTypes.ObjectId,
       ref: "users",

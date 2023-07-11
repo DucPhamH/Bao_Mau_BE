@@ -129,6 +129,19 @@ const getAllPostUserPayment = asyncHandler(async (req, res, next) => {
   }
 });
 
+const deletePosts = asyncHandler(async (req, res, next) => {
+  const { id } = req.params;
+  const deletePost = await PostModel.findOneAndDelete({
+    _id: id,
+  });
+  if (deletePost) {
+    res.status(200).json({ message: "xoá post thành công", data: deletePost });
+  } else {
+    res.status(400).json({ message: "xoá thất bại" });
+    throw new Error("xoá thất bại");
+  }
+});
+
 module.exports = {
   createPost,
   getAllPost,
@@ -137,4 +150,5 @@ module.exports = {
   getAllPostUser,
   getAllPostUserAccept,
   getAllPostUserPayment,
+  deletePosts,
 };
